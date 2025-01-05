@@ -14,7 +14,9 @@ enum SortType {
 const getPreparedGoods = (goods: string[], sortBy: SortType) => {
   const preparedGoods = [...goods];
 
-  if (sortBy) {
+  const sortTypeValidation = Object.values(SortType).includes(sortBy);
+
+  if (sortBy && sortTypeValidation) {
     switch (sortBy) {
       case SortType.ALPHABET:
         return preparedGoods.sort((a, b) => a.localeCompare(b));
@@ -34,7 +36,7 @@ export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortType>(SortType.EMPTY);
   const [isReversed, setIsReversed] = useState(false);
 
-  const visibleGoods = getPreparedGoods(goodsFromServer, sortBy);
+  const visibleGoods = getPreparedGoods(goodsFromServer as string[], sortBy);
 
   if (isReversed) {
     visibleGoods.reverse();
